@@ -1,16 +1,30 @@
 <script setup lang="ts">
-defineProps<{
+
+const props = defineProps<{
   counter: number
 }>()
+
+const pluralize = (word: string, count: number, plural?: string) => {
+  return count > 1 || count < 1 ? plural ? plural : `${word}s`: word
+}
+
+const lines = () => Math.floor(props.counter / 10)
+const paragraphs = () => Math.floor(props.counter / 50)
+const pages = () => Math.floor(props.counter / 250)
+
 </script>
 
 <template>
   <div class="greetings">
-    <h1 class="green">{{ counter }}</h1>
-    <h3>
-      {{ counter < 5 ? 'Keep writing!' : "You've successfully written " + counter/5 + ' paragraphs!' }}
-    </h3>
-  </div>
+      <h1 v-if="counter < 1" class="green" >Start writing!</h1>
+      <div v-else>
+        <h1 class="green">You've successfully written</h1>
+        <h2>{{ counter }} {{ pluralize('word', counter) }}</h2>
+        <h2 v-if="lines() > 0">{{ lines() }} {{ pluralize('line', lines()) }}</h2>
+        <h2 v-if="paragraphs() > 0">{{ paragraphs() }} {{ pluralize('paragraph', paragraphs()) }}</h2>
+        <h2 v-if="pages() > 0">{{ pages() }} {{ pluralize('page', pages()) }}</h2>
+      </div>
+    </div>
 </template>
 
 <style scoped>

@@ -14,16 +14,16 @@ const count = ref(0)
     <div class="wrapper">
       <HelloWorld :counter="count" />
 
-      <nav>
+      <!-- <nav>
         <RouterLink to="/">Home</RouterLink>
         <RouterLink to="/about">About</RouterLink>
-      </nav>
+      </nav> -->
     </div>
   </header>
 
   <!-- <RouterView /> -->
 
-  <button @click="count++">Add</button>
+  <button @click="count++">Write word</button>
 </template>
 
 <style scoped>
