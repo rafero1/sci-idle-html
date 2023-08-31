@@ -16,6 +16,11 @@ const coAuthors = ref(0)
 const orientators = ref(0)
 const trainees = ref(0)
 
+// increment basic counter
+function incrementWords() {
+  words.value++
+}
+
 // publish paper to earn research points
 function publishPaper() {
   const n = 100
@@ -33,8 +38,27 @@ function publishPaper() {
   console.log(`papers: ${papersPublished.value}`)
 }
 
-function incrementWords() {
-  words.value++
+class IdleCounter {
+  name: string;
+  cost:number;
+  wps:number;
+  description:string;
+  prerequisites?:IdleCounter[];
+
+  constructor(name:string, cost:number, wps:number, description:string, prerequisites?:IdleCounter[]) {
+    this.name = name
+    this.cost = cost
+    this.wps = wps
+    this.description = description
+    this.prerequisites = prerequisites
+  }
+}
+
+// buy an idle counter
+function buyIdleCounter(idleCounter:IdleCounter, amount:number, pts:number) {
+  if (pts >= idleCounter.cost) {
+    pts -= idleCounter.cost
+  }
 }
 </script>
 
@@ -56,7 +80,7 @@ function incrementWords() {
 
   <div class="grid">
     <ActionButton @click="incrementWords" text="Write"></ActionButton>
-    <ActionButton @click="publishPaper" text="Publish!"></ActionButton>
+    <ActionButton @click="publishPaper" text="Publish"></ActionButton>
   </div>
 </template>
 

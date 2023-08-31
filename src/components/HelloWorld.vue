@@ -14,28 +14,30 @@ const pages = computed(() => getPages(props.counter))
 
 <template>
   <div class="greetings">
-    <h1 v-if="counter < 1" class="green">Start writing!</h1>
-    <template v-else>
-      <h1 class="green">You've successfully written</h1>
-      <h2>{{ counter }} {{ pluralize('word', counter) }}</h2>
-      <h2 v-if="lines > 0">{{ lines }} {{ pluralize('line', lines) }}</h2>
-      <h2 v-if="paragraphs > 0">{{ paragraphs }} {{ pluralize('paragraph', paragraphs) }}</h2>
-      <h2 v-if="pages > 0">{{ pages }} {{ pluralize('page', pages) }}</h2>
-    </template>
+    <h1><span class="big counter">{{ counter }}</span> {{ pluralize('word', counter) }}</h1>
+    <h2 v-if="lines > 0"><span class="big counter">{{ lines }}</span> {{ pluralize('line', lines) }}</h2>
+    <h2 v-if="paragraphs > 0"><span class="big counter">{{ paragraphs }}</span> {{ pluralize('paragraph', paragraphs) }}</h2>
+    <h2 v-if="pages > 0"><span class="big counter">{{ pages }}</span> {{ pluralize('page', pages) }}</h2>
 
     <template v-if="publishedCounter > 0">
-      <h1 class="green">And published</h1>
-      <h2>{{ publishedCounter }} {{ pluralize('paper', publishedCounter) }}</h2>
+      <h2><span class="big counter">{{ publishedCounter }}</span> {{ pluralize('paper', publishedCounter) }}</h2>
     </template>
   </div>
 </template>
 
 <style scoped>
+.big {
+  font-size: 5rem;
+}
+
+.counter {
+  font-weight: 500;
+}
+
 h1 {
   font-weight: 500;
-  font-size: 2.6rem;
+  font-size: 1.6rem;
   position: relative;
-  top: -10px;
 }
 
 h3 {
