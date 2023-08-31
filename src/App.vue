@@ -1,10 +1,41 @@
 <script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
+// import { RouterLink, RouterView } from 'vue-router'
 import { ref } from 'vue'
 
-const count = ref(0)
+import HelloWorld from './components/HelloWorld.vue'
+import ActionButton from './components/ActionButton.vue'
 
+const words = ref(0)
+
+const researchPts = ref(0)
+const papersPublished = ref(0)
+
+// idle counters
+const coffeeCups = ref(0)
+const coAuthors = ref(0)
+const orientators = ref(0)
+const trainees = ref(0)
+
+// publish paper to earn research points
+function publishPaper() {
+  const n = 100
+  if (words.value < n) {
+    alert(`You need to write at least ${n} words to publish a paper!`)
+    return
+  }
+
+  researchPts.value += Math.floor(words.value / 10)
+
+  words.value = 0
+  papersPublished.value ++
+
+  console.log(`research points: ${researchPts.value}`)
+  console.log(`papers: ${papersPublished.value}`)
+}
+
+function incrementWords() {
+  words.value++
+}
 </script>
 
 <template>
@@ -12,7 +43,7 @@ const count = ref(0)
     <!-- <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" /> -->
 
     <div class="wrapper">
-      <HelloWorld :counter="count" />
+      <HelloWorld :counter="words" :published-counter="papersPublished" />
 
       <!-- <nav>
         <RouterLink to="/">Home</RouterLink>
@@ -23,10 +54,20 @@ const count = ref(0)
 
   <!-- <RouterView /> -->
 
-  <button @click="count++">Write word</button>
+  <div class="grid">
+    <ActionButton @click="incrementWords" text="Write"></ActionButton>
+    <ActionButton @click="publishPaper" text="Publish!"></ActionButton>
+  </div>
 </template>
 
 <style scoped>
+
+.grid {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
 header {
   line-height: 1.5;
   max-height: 100vh;

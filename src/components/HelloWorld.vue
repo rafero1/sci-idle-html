@@ -1,30 +1,33 @@
 <script setup lang="ts">
+import { computed, ref } from 'vue'
+import { pluralize, getLines, getParagraphs, getPages } from '../logic/counter'
 
 const props = defineProps<{
-  counter: number
+  counter: number,
+  publishedCounter: number
 }>()
 
-const pluralize = (word: string, count: number, plural?: string) => {
-  return count > 1 || count < 1 ? plural ? plural : `${word}s`: word
-}
-
-const lines = () => Math.floor(props.counter / 10)
-const paragraphs = () => Math.floor(props.counter / 50)
-const pages = () => Math.floor(props.counter / 250)
-
+const lines = computed(() => getLines(props.counter))
+const paragraphs = computed(() => getParagraphs(props.counter))
+const pages = computed(() => getPages(props.counter))
 </script>
 
 <template>
   <div class="greetings">
-      <h1 v-if="counter < 1" class="green" >Start writing!</h1>
-      <div v-else>
-        <h1 class="green">You've successfully written</h1>
-        <h2>{{ counter }} {{ pluralize('word', counter) }}</h2>
-        <h2 v-if="lines() > 0">{{ lines() }} {{ pluralize('line', lines()) }}</h2>
-        <h2 v-if="paragraphs() > 0">{{ paragraphs() }} {{ pluralize('paragraph', paragraphs()) }}</h2>
-        <h2 v-if="pages() > 0">{{ pages() }} {{ pluralize('page', pages()) }}</h2>
-      </div>
-    </div>
+    <h1 v-if="counter < 1" class="green">Start writing!</h1>
+    <template v-else>
+      <h1 class="green">You've successfully written</h1>
+      <h2>{{ counter }} {{ pluralize('word', counter) }}</h2>
+      <h2 v-if="lines > 0">{{ lines }} {{ pluralize('line', lines) }}</h2>
+      <h2 v-if="paragraphs > 0">{{ paragraphs }} {{ pluralize('paragraph', paragraphs) }}</h2>
+      <h2 v-if="pages > 0">{{ pages }} {{ pluralize('page', pages) }}</h2>
+    </template>
+
+    <template v-if="publishedCounter > 0">
+      <h1 class="green">And published</h1>
+      <h2>{{ publishedCounter }} {{ pluralize('paper', publishedCounter) }}</h2>
+    </template>
+  </div>
 </template>
 
 <style scoped>
